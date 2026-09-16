@@ -1,0 +1,981 @@
+<!-- ========================================== -->
+<!--       OFFLINE WINDOW UI (Sales Page)       -->
+<!-- ========================================== -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>babee kaira | Exclusive Access</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                colors: {
+                    premium: {
+                        gold: "#D4AF37",
+                        goldLight: "#F3E5AB",
+                        dark: "#050505",
+                        card: "#121212",
+                        red: "#FF0033"
+                    }
+                },
+                animation: {
+                    'shimmer': 'shimmer 2.5s linear infinite',
+                    'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    'bounce-x': 'bounceX 1s infinite',
+                },
+                keyframes: {
+                    shimmer: {
+                        '0%': { transform: 'translateX(-100%)' },
+                        '100%': { transform: 'translateX(100%)' }
+                    },
+                    fadeInUp: {
+                        '0%': {
+                            opacity: '0',
+                            transform: 'translateY(20px)'
+                        },
+                        '100%': {
+                            opacity: '1',
+                            transform: 'translateY(0)'
+                        }
+                    },
+                    bounceX: {
+                        '0%, 100%': { transform: 'translateX(0)' },
+                        '50%': { transform: 'translateX(4px)' }
+                    }
+                }
+            },
+        },
+    };
+</script>
+
+<style>
+    body {
+        background-color: #050505;
+        color: #ffffff;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
+
+    .bg-noise {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.3);
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .snap-x-mandatory {
+        scroll-snap-type: x mandatory;
+    }
+
+    .snap-center {
+        scroll-snap-align: center;
+    }
+
+    .timer-strip {
+        background: linear-gradient(
+            90deg,
+            rgba(255,0,51,0.1) 0%,
+            rgba(255,0,51,0.2) 50%,
+            rgba(255,0,51,0.1) 100%
+        );
+        border: 1px solid rgba(255, 0, 51, 0.2);
+    }
+
+    .slide-text {
+        transition:
+            transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide-in {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .slide-out {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    .slide-hidden {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    .text-gold-gradient {
+        background: linear-gradient(to bottom, #FDE68A, #D4AF37);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+</head>
+
+<body class="relative min-h-screen pb-48 bg-[#050505]">
+
+<div class="bg-noise"></div>
+
+<main class="max-w-md mx-auto relative z-10 animate-fade-in-up">
+
+    <div class="w-full relative group">
+
+        <img
+            src="https://bvpm7vbw3r7w7mcj.public.blob.vercel-storage.com/im/jk.jpg"
+            alt="Cover"
+            class="w-full h-auto object-contain shadow-2xl rounded-b-[2rem]"
+        >
+
+        <div class="absolute top-2 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+            <span class="text-[9px] font-bold text-white uppercase tracking-wider">
+                Online
+            </span>
+        </div>
+
+        <div class="absolute bottom-0 right-2 transform translate-y-1/2 z-20">
+
+            <div class="flex items-center gap-1.5 px-2 py-1 bg-black/60 backdrop-blur-md border border-green-500/30 rounded-full shadow-lg">
+
+                <i class="fas fa-video text-green-400 text-[9px]"></i>
+
+                <span class="text-[8px] font-bold text-green-400 uppercase tracking-widest leading-none">
+                    Private Chat & Video Call
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="px-5 mt-7 mb-4 flex justify-between items-start">
+
+        <div class="flex-1 pr-2">
+
+            <div class="flex items-center gap-1.5">
+
+                <h1 class="text-xl font-extrabold text-white leading-none tracking-tight">
+                    babee kaira
+                </h1>
+
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg"
+                    alt="Verified"
+                    class="w-5 h-5 flex-shrink-0 object-contain"
+                >
+
+            </div>
+
+            <div class="h-5 mt-1 relative overflow-hidden">
+
+                <p
+                    id="text-1"
+                    class="absolute top-0 left-0 w-full text-xs font-medium text-gray-400 slide-text slide-in whitespace-nowrap"
+                >
+                    Exclusive Content & Private Access
+                </p>
+
+                <p
+                    id="text-2"
+                    class="absolute top-0 left-0 w-full text-xs font-medium slide-text slide-hidden whitespace-nowrap"
+                >
+                    <i class="fas fa-images text-green-400 mr-1"></i>
+                    <span class="text-green-400 font-bold">
+                        200+ Photos/Videos
+                    </span>
+                    <span class="text-gray-400">
+                        Inside
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="flex flex-col items-end flex-shrink-0">
+
+            <div class="flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 rounded-md backdrop-blur-md whitespace-nowrap">
+
+                <i class="fas fa-users text-green-400 text-[10px]"></i>
+
+                <span class="text-[10px] font-bold text-white uppercase tracking-wide leading-none">
+                    7,530+ Joined
+                </span>
+
+            </div>
+
+            <p class="text-[9px] text-gray-500 mt-1 font-medium">
+                Private Group
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="mx-4 mb-8">
+
+        <div class="timer-strip rounded-xl p-3 flex items-center justify-between shadow-[0_0_20px_rgba(255,0,51,0.15)] relative overflow-hidden">
+
+            <div class="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12"></div>
+
+            <div class="flex items-center gap-3 relative z-10">
+
+                <div class="w-10 h-10 rounded-full bg-premium-red/10 border border-premium-red/30 flex items-center justify-center animate-pulse">
+
+                    <i class="fas fa-stopwatch text-premium-red text-lg"></i>
+
+                </div>
+
+                <div>
+
+                    <p class="text-[10px] font-bold text-premium-red uppercase tracking-widest mb-0.5">
+                        Special Price Ends In
+                    </p>
+
+                    <p class="text-xs text-white">
+                        Save 83% •
+                        <span class="line-through text-gray-500">
+                            ₹899
+                        </span>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="flex items-center gap-1.5 relative z-10">
+
+                <div class="flex flex-col items-center gap-0.5">
+
+                    <div
+                        class="bg-black/40 rounded px-2 py-1 border border-premium-red/20 shadow-inner font-mono text-lg font-bold text-white leading-none"
+                        id="cd-hours"
+                    >
+                        00
+                    </div>
+
+                    <span class="text-[7px] font-bold text-gray-400 uppercase tracking-wider">
+                        Hrs
+                    </span>
+
+                </div>
+
+                <span class="text-xs text-premium-red font-bold -mt-3 animate-pulse">
+                    :
+                </span>
+
+                <div class="flex flex-col items-center gap-0.5">
+
+                    <div
+                        class="bg-black/40 rounded px-2 py-1 border border-premium-red/20 shadow-inner font-mono text-lg font-bold text-white leading-none"
+                        id="cd-mins"
+                    >
+                        00
+                    </div>
+
+                    <span class="text-[7px] font-bold text-gray-400 uppercase tracking-wider">
+                        Min
+                    </span>
+
+                </div>
+
+                <span class="text-xs text-premium-red font-bold -mt-3 animate-pulse">
+                    :
+                </span>
+
+                <div class="flex flex-col items-center gap-0.5">
+
+                    <div
+                        class="bg-black/40 rounded px-2 py-1 border border-premium-red/20 text-premium-red shadow-inner font-mono text-lg font-bold leading-none"
+                        id="cd-secs"
+                    >
+                        00
+                    </div>
+
+                    <span class="text-[7px] font-bold text-premium-red/70 uppercase tracking-wider">
+                        Sec
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="px-0">
+
+        <div class="flex items-center justify-between px-5 mb-3">
+
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+
+                <i class="fas fa-play-circle text-premium-gold"></i>
+                Previews
+
+            </h2>
+
+            <span class="text-[10px] text-gray-500 font-medium">
+                Swipe
+                <i class="fas fa-chevron-right text-[8px] ml-0.5"></i>
+            </span>
+
+        </div>
+
+        <div
+            id="videoScroller"
+            class="flex overflow-x-auto gap-3 px-5 pb-4 hide-scrollbar snap-x-mandatory"
+        ></div>
+
+    </div>
+
+</main>
+
+
+<!-- PAYMENT BUTTON -->
+
+<div class="fixed bottom-0 left-0 right-0 z-50 p-4 pt-10 bg-gradient-to-t from-[#050505] via-[#050505]/98 to-transparent">
+
+    <a
+        href="#"
+        id="payBtn"
+        class="block w-full max-w-md mx-auto relative group"
+    >
+
+        <div class="absolute -inset-[2px] rounded-2xl bg-gradient-to-r from-premium-gold/40 via-red-500/40 to-premium-gold/40 blur-sm opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+
+        <button
+            class="relative w-full h-[72px] bg-[#0f0f0f] rounded-2xl flex items-center justify-between px-5 border border-white/10 overflow-hidden shadow-2xl transition-all duration-300"
+        >
+
+            <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+
+            <div class="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"></div>
+
+            <div class="flex flex-col items-start z-10">
+
+                <span class="text-sm text-white font-extrabold uppercase tracking-wide leading-tight mb-0.5 drop-shadow-md">
+                    Join Private Telegram Group
+                </span>
+
+                <div class="flex items-center gap-2.5">
+
+                    <span class="text-gray-500 line-through text-xs font-medium">
+                        ₹899
+                    </span>
+
+                    <span class="text-lg font-black text-gold-gradient drop-shadow-sm">
+                        ₹<span id="priceCurrent">199</span>
+                    </span>
+
+                    <span class="bg-gradient-to-r from-red-600 to-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm">
+                        83% OFF
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="z-10 pl-4">
+
+                <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#FDE68A] to-[#D4AF37] text-black flex items-center justify-center shadow-[0_4px_10px_rgba(212,175,55,0.4)] animate-bounce-x">
+
+                    <i class="fas fa-arrow-right text-lg"></i>
+
+                </div>
+
+            </div>
+
+        </button>
+
+    </a>
+
+
+    <div class="flex justify-center items-center mt-3 mb-1">
+
+        <div class="flex items-center gap-4 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10">
+
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg"
+                alt="Google Pay"
+                class="h-4 w-auto"
+            >
+
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg"
+                alt="PhonePe"
+                class="h-4 w-auto"
+            >
+
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg"
+                alt="Paytm"
+                class="h-3 w-auto"
+            >
+
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg"
+                alt="UPI"
+                class="h-3 w-auto"
+            >
+
+        </div>
+
+    </div>
+
+
+    <p class="text-[10px] text-gray-500 mt-2 flex items-center justify-center gap-1.5 opacity-80">
+
+        <i class="fas fa-lock text-[9px]"></i>
+
+        Payments processed via manager
+
+        <span class="text-gray-300 font-bold">
+            cashfree
+        </span>
+
+        <img
+            src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg"
+            class="w-3 h-3 flex-shrink-0"
+            alt="Verified"
+        >
+
+    </p>
+
+</div>
+
+
+<script>
+
+    // --- 1. SMOOTH DYNAMIC TEXT ANIMATION ---
+
+    (function() {
+
+        const el1 = document.getElementById('text-1');
+        const el2 = document.getElementById('text-2');
+
+        let showingFirst = true;
+
+        setInterval(() => {
+
+            if (showingFirst) {
+
+                el1.classList.remove('slide-in');
+                el1.classList.add('slide-out');
+
+                setTimeout(() => {
+                    el2.classList.remove('slide-hidden');
+                    el2.classList.add('slide-in');
+                }, 50);
+
+                setTimeout(() => {
+                    el1.classList.remove('slide-out');
+                    el1.classList.add('slide-hidden');
+                }, 500);
+
+            } else {
+
+                el2.classList.remove('slide-in');
+                el2.classList.add('slide-out');
+
+                setTimeout(() => {
+                    el1.classList.remove('slide-hidden');
+                    el1.classList.add('slide-in');
+                }, 50);
+
+                setTimeout(() => {
+                    el2.classList.remove('slide-out');
+                    el2.classList.add('slide-hidden');
+                }, 500);
+
+            }
+
+            showingFirst = !showingFirst;
+
+        }, 3000);
+
+    })();
+
+
+    // --- 2. PERSISTENT TIMER SCRIPT ---
+
+    (function() {
+
+        const KEY = 'stitch_offer_expires_v3';
+
+        const MIN_MS = 30 * 60 * 1000;
+        const MAX_MS = 90 * 60 * 1000;
+
+        const LAST_RESET_MS = 10 * 1000;
+
+        function randomDuration() {
+            return Math.floor(
+                Math.random() * (MAX_MS - MIN_MS + 1)
+            ) + MIN_MS;
+        }
+
+        function setNewExpiry() {
+
+            const e = Date.now() + randomDuration();
+
+            try {
+                sessionStorage.setItem(KEY, String(e));
+            } catch {}
+
+            return e;
+        }
+
+        function getExpiry() {
+
+            try {
+
+                const v = sessionStorage.getItem(KEY);
+
+                if (v && Number(v) > Date.now()) {
+                    return Number(v);
+                }
+
+            } catch {}
+
+            return setNewExpiry();
+        }
+
+        let expiresAt = getExpiry();
+
+        const elH = document.getElementById('cd-hours');
+        const elM = document.getElementById('cd-mins');
+        const elS = document.getElementById('cd-secs');
+
+        function updateDisplay(ms) {
+
+            const total = Math.max(
+                0,
+                Math.floor(ms / 1000)
+            );
+
+            if (elH) {
+                elH.textContent =
+                    String(Math.floor(total / 3600)).padStart(2, '0');
+            }
+
+            if (elM) {
+                elM.textContent =
+                    String(Math.floor((total % 3600) / 60)).padStart(2, '0');
+            }
+
+            if (elS) {
+                elS.textContent =
+                    String(total % 60).padStart(2, '0');
+            }
+
+        }
+
+        function tick() {
+
+            let rem = expiresAt - Date.now();
+
+            if (rem <= LAST_RESET_MS) {
+
+                expiresAt = setNewExpiry();
+
+                rem = expiresAt - Date.now();
+
+            }
+
+            updateDisplay(rem);
+
+        }
+
+        tick();
+
+        const iv = setInterval(tick, 1000);
+
+        window.addEventListener(
+            'beforeunload',
+            () => clearInterval(iv)
+        );
+
+    })();
+
+
+    // --- 3. VIDEO SCROLLER ---
+
+    const videos = [
+
+        {
+            url: 'https://bvpm7vbw3r7w7mcj.public.blob.vercel-storage.com/vi/b2.mp4',
+            title: 'Full Video in Group',
+            time: '39 min',
+            isVideo: true
+        },
+
+        {
+            url: 'https://bvpm7vbw3r7w7mcj.public.blob.vercel-storage.com/vi/b1.mp4',
+            title: 'Full Video in Group',
+            time: '47 min',
+            isVideo: true
+        },
+
+        {
+            locked: true,
+            title: 'Join Private Group',
+            subtitle: 'To Watch All'
+        },
+
+        {
+            locked: true,
+            title: 'Unlock Content',
+            subtitle: '200+ Photos/Videos'
+        }
+
+    ];
+
+    const scroller =
+        document.getElementById('videoScroller');
+
+
+    videos.forEach((vid) => {
+
+        const card = document.createElement('div');
+
+        card.className =
+            `relative flex-shrink-0 w-[38%] aspect-[9/16] rounded-xl overflow-hidden glass-panel snap-center border border-white/10 group shadow-lg`;
+
+        if (vid.locked) {
+
+            card.innerHTML = `
+
+                <div class="absolute inset-0 bg-gray-800">
+
+                    <img
+                        src="https://ayeshaa.in/pvt/blurred.jpg"
+                        class="w-full h-full object-cover opacity-50 filter blur-lg scale-110"
+                    >
+
+                </div>
+
+                <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center p-2 backdrop-blur-[1px]">
+
+                    <div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mb-2">
+
+                        <i class="fas fa-lock text-white text-sm"></i>
+
+                    </div>
+
+                    <p class="text-[10px] font-bold text-white leading-tight">
+                        ${vid.title}
+                    </p>
+
+                    <p class="text-[8px] text-premium-gold mt-0.5 font-bold uppercase tracking-wide">
+                        ${vid.subtitle}
+                    </p>
+
+                </div>
+
+            `;
+
+        } else {
+
+            card.innerHTML = `
+
+                <video
+                    src="${vid.url}#t=0.1"
+                    preload="metadata"
+                    class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700"
+                    muted
+                    playsinline
+                    loop
+                ></video>
+
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+
+                    <i class="fas fa-play text-white text-xs ml-0.5"></i>
+
+                </div>
+
+                <div class="absolute bottom-2 left-2 right-2">
+
+                    <p class="text-[10px] font-bold text-white truncate">
+                        ${vid.title}
+                    </p>
+
+                    <p class="text-[9px] text-gray-400 flex items-center gap-1">
+
+                        <i class="fas fa-clock text-[8px]"></i>
+
+                        ${vid.time}
+
+                    </p>
+
+                </div>
+
+                <div class="absolute top-2 right-2 bg-black/60 px-1.5 py-0.5 rounded text-[8px] font-bold text-white border border-white/10">
+                    HD
+                </div>
+
+            `;
+
+            const video =
+                card.querySelector('video');
+
+            card.addEventListener('click', () => {
+
+                if (video.paused) {
+
+                    document
+                        .querySelectorAll('video')
+                        .forEach(v => {
+
+                            v.pause();
+                            v.muted = true;
+
+                            const p =
+                                v.parentElement.querySelector('.fa-play')?.parentElement;
+
+                            if (p) {
+                                p.classList.remove('opacity-0');
+                            }
+
+                        });
+
+                    video.muted = false;
+                    video.play();
+
+                    card
+                        .querySelector('.fa-play')
+                        .parentElement
+                        .classList
+                        .add('opacity-0');
+
+                } else {
+
+                    video.pause();
+
+                    card
+                        .querySelector('.fa-play')
+                        .parentElement
+                        .classList
+                        .remove('opacity-0');
+
+                }
+
+            });
+
+        }
+
+        scroller.appendChild(card);
+
+    });
+
+
+    // --- 4. PRICE COUNTDOWN ANIMATION ---
+
+    (function() {
+
+        var start = 899;
+        var end = 199;
+        var duration = 2000;
+
+        var priceEl =
+            document.getElementById('priceCurrent');
+
+        if (!priceEl) return;
+
+        var startTime = null;
+
+        function easeOutQuad(t) {
+            return t * (2 - t);
+        }
+
+        function tick(ts) {
+
+            if (!startTime) {
+                startTime = ts;
+            }
+
+            var p =
+                Math.min(
+                    (ts - startTime) / duration,
+                    1
+                );
+
+            var current =
+                Math.round(
+                    start +
+                    (end - start) *
+                    easeOutQuad(p)
+                );
+
+            if (current < end) {
+                current = end;
+            }
+
+            priceEl.textContent = current;
+
+            if (p < 1) {
+                requestAnimationFrame(tick);
+            } else {
+                priceEl.textContent = end;
+            }
+
+        }
+
+        requestAnimationFrame(tick);
+
+    })();
+
+
+    // --- 5. CASHFREE PAYMENT CTA ---
+    // MOBILE NUMBER PROMPT REMOVED
+
+    document
+        .getElementById('payBtn')
+        .addEventListener('click', async function(e) {
+
+            e.preventDefault();
+
+            const btn =
+                this.querySelector('button');
+
+            const original =
+                btn.innerHTML;
+
+            btn.disabled = true;
+
+            btn.innerHTML = `
+                <div class="flex flex-col items-center justify-center leading-tight">
+
+                    <span class="text-white/90 text-[10px] font-medium tracking-wide uppercase mb-0.5">
+                        Secure Checkout
+                    </span>
+
+                    <div class="flex items-center gap-1.5">
+
+                        <i class="fas fa-lock text-white text-sm"></i>
+
+                        <span class="text-white font-bold text-sm tracking-wide">
+                            Opening Payment…
+                        </span>
+
+                    </div>
+
+                </div>
+            `;
+
+            try {
+
+                const r =
+                    await fetch(
+                        '/api/create-order',
+                        {
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body: JSON.stringify({})
+                        }
+                    );
+
+                const data =
+                    await r.json().catch(() => ({}));
+
+                if (
+                    !r.ok ||
+                    !data.payment_session_id
+                ) {
+
+                    throw new Error(
+                        data.error ||
+                        'Unable to start payment.'
+                    );
+
+                }
+
+                if (!window.Cashfree) {
+
+                    throw new Error(
+                        'Cashfree checkout could not load.'
+                    );
+
+                }
+
+                const cashfree =
+                    Cashfree({
+                        mode:
+                            data.mode ||
+                            'sandbox'
+                    });
+
+                await cashfree.checkout({
+
+                    paymentSessionId:
+                        data.payment_session_id,
+
+                    redirectTarget:
+                        '_self'
+
+                });
+
+            } catch(err) {
+
+                console.error(err);
+
+                alert(
+                    err.message ||
+                    'Payment could not be started.'
+                );
+
+                btn.disabled = false;
+
+                btn.innerHTML =
+                    original;
+
+            }
+
+        });
+
+</script>
+
+</body>
+</html>

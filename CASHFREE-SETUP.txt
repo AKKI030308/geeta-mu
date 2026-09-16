@@ -1,0 +1,20 @@
+CASHFREE + TELEGRAM FLOW
+
+1. Upload this project to GitHub and deploy it on Vercel.
+2. In Vercel -> Settings -> Environment Variables, add:
+   CASHFREE_APP_ID=...
+   CASHFREE_SECRET_KEY=...
+   CASHFREE_ENV=sandbox
+   CASHFREE_API_VERSION=2025-01-01
+   SITE_URL=https://YOUR-VERCEL-DOMAIN.vercel.app
+   EXPECTED_AMOUNT=199
+   TELEGRAM_INVITE_LINK=https://t.me/+YOUR_PRIVATE_INVITE
+
+3. Cashfree checkout opens from the payment CTA.
+4. Cashfree returns to /return.html.
+5. Server checks the Cashfree payment status.
+6. Only SUCCESS is allowed to continue.
+7. /api/telegram-redirect then redirects to the Telegram invite.
+8. The Telegram invite is NOT placed in index.html.
+
+For live payments, switch CASHFREE_ENV to production and use production Cashfree credentials after the Cashfree account is approved for production.

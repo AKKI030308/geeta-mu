@@ -1,0 +1,32 @@
+FINAL CASHFREE + TELEGRAM CTA SETUP
+
+CTA:
+🔒 JOIN PRIVATE GROUP — ₹199
+
+FLOW:
+CTA click
+-> Cashfree Checkout
+-> Cashfree payment
+-> /return.html
+-> server-side payment verification
+-> SUCCESS only
+-> /api/telegram-redirect
+-> Telegram invite
+
+VERCEL ENVIRONMENT VARIABLES:
+CASHFREE_APP_ID=YOUR_APP_ID
+CASHFREE_SECRET_KEY=YOUR_SECRET_KEY
+CASHFREE_ENV=sandbox
+CASHFREE_API_VERSION=2025-01-01
+SITE_URL=https://YOUR-VERCEL-DOMAIN.vercel.app
+EXPECTED_AMOUNT=199
+TELEGRAM_INVITE_LINK=https://t.me/+YOUR_PRIVATE_INVITE
+
+CASHFREE WEBHOOK:
+https://YOUR-VERCEL-DOMAIN.vercel.app/api/webhook
+
+IMPORTANT:
+- Never put CASHFREE_SECRET_KEY in index.html.
+- Never put the private Telegram invite in index.html.
+- Test in sandbox first.
+- For live payments, use Cashfree production credentials and set CASHFREE_ENV=production after production approval.
